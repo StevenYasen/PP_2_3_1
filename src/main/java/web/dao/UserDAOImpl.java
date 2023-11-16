@@ -18,26 +18,32 @@ public class UserDAOImpl implements UserDAO {
         this.entityManager = entityManager;
     }
 
-    @Transactional
+//    public void addUsers() {
+//        entityManager.persist(new User("Igor", "Prokofiev", "ig@mail.ru"));
+//        entityManager.persist(new User("Vitya", "Malishev", "vm@mail.ru"));
+//        entityManager.persist(new User("Nina", "Kolosova", "nk@mail.ru"));
+//        entityManager.persist(new User("Zina", "Borodkina", "zb@mail.ru"));
+//    }
+
+
     @Override
-    public void addUsers() {
-        System.out.println("зашел в метод addUser()");
-        entityManager.persist(new User("Igor", "Prokofiev", "ig@mail.ru"));
-        entityManager.persist(new User("Vitya", "Malishev", "vm@mail.ru"));
+    public User getUserById(Long userId) {
+        return entityManager.find(User.class, userId);
     }
 
-    @Transactional
     @Override
-    public User getUser() {
-        System.out.println("getUser()");
-        User u = entityManager.find(User.class, 1L);
-        return u;
+    public void deleteUserById(Long userId) {
+        entityManager.createNativeQuery("delete from users where id=:id").setParameter("id", userId).executeUpdate();
     }
 
-    @Transactional
+    @Override
+    public void saveUser(User u) {
+        entityManager.merge(u);
+    }
+
+
     @Override
     public List<User> getAllUsers() {
-        System.out.println("getAllUsers()");
         List<User> users = entityManager.createNativeQuery("select * from users", User.class).getResultList();
         return users;
     }
