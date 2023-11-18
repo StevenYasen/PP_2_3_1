@@ -5,7 +5,6 @@ import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -18,14 +17,6 @@ public class UserDAOImpl implements UserDAO {
         this.entityManager = entityManager;
     }
 
-//    public void addUsers() {
-//        entityManager.persist(new User("Igor", "Prokofiev", "ig@mail.ru"));
-//        entityManager.persist(new User("Vitya", "Malishev", "vm@mail.ru"));
-//        entityManager.persist(new User("Nina", "Kolosova", "nk@mail.ru"));
-//        entityManager.persist(new User("Zina", "Borodkina", "zb@mail.ru"));
-//    }
-
-
     @Override
     public User getUserById(Long userId) {
         return entityManager.find(User.class, userId);
@@ -33,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void deleteUserById(Long userId) {
-        entityManager.createNativeQuery("delete from users where id=:id").setParameter("id", userId).executeUpdate();
+        entityManager.remove(entityManager.find(User.class, userId));
     }
 
     @Override
@@ -44,7 +35,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAllUsers() {
-        List<User> users = entityManager.createNativeQuery("select * from users", User.class).getResultList();
-        return users;
+        return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 }
