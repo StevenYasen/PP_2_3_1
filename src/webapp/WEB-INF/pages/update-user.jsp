@@ -5,7 +5,10 @@
     <title>User-info:</title>
 </head>
 <body>
-<form action="#" th:action="@{/saveUser}" th:object="${user}" th:method="POST">
+<form action="#" th:action="@{/updateUser}" th:object="${user}" th:method="PATCH">
+    <div>
+        <input type="text" th:field="*{id}" id="id" placeholder="id" hidden="hidden">
+    </div>
     <div>
     <label for="firstName">firstName</label>
     <input type="text" th:field="*{firstName}" id="firstName" placeholder="firstName">
@@ -19,8 +22,9 @@
     <input type="text" th:field="*{email}" id="email" placeholder="email">
     </div>
     <div>
-        <input type="submit" value="Add user">
-        <input style="color:black; display:inline-block" type="button" value="Cancel" onclick="window.location.href='/users'">
+        <input type="submit" value="update">
+        <a href="/users"><input type="button" value="Cancel"></a>
+
     </div>
 </form>
 </body>

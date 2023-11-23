@@ -38,17 +38,29 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("/deleteUser")//cant use Post because can't use PathVariable by task conditions
+    @DeleteMapping("/deleteUser")
     public String deleteUser(@RequestParam("id") Long userId) {
         userService.deleteUserById(userId);
-        return "redirect:users";
+        return "redirect:/users";
     }
 
-    @GetMapping("/updateUser")//cant use Post because can't use PathVariable by task conditions
-    public String updateUser(@RequestParam("id") Long userId, Model model) {
+    @GetMapping("/user")
+    public String showUser(@RequestParam("id") Long userId, Model model) {
         User user = userService.getUserById(userId);
         model.addAttribute("user", user);
-        return "user-info";
+        return "show-user";
+    }
+
+    @GetMapping("/edit")
+    public String editUser(@RequestParam("id") Long userId, Model model) {
+        model.addAttribute("user", userService.getUserById(userId));
+        return "update-user";
+    }
+
+    @PatchMapping("/updateUser")
+    public String updateUser(@ModelAttribute("user") User user) {
+        userService.saveUser(user);
+        return "redirect:/users";
     }
 
 }

@@ -1,6 +1,7 @@
 package web.config;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.FilterRegistration;
@@ -17,6 +18,12 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
 
         super.onStartup(servletContext);
+        registerHiddenFieldFilter(servletContext);
+    }
+    private void registerHiddenFieldFilter(ServletContext aContext) {
+        aContext.setRequestCharacterEncoding("UTF-8");
+        aContext.addFilter("hiddenHttpMethodFilter",
+                new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null, true, "/*");
     }
 
     // Метод, указывающий на класс конфигурации

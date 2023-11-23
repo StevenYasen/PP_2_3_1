@@ -20,13 +20,13 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-       return userDAO.getAllUsers();
+        return userDAO.getAllUsers();
     }
 
 
     @Override
     public User getUserById(Long userId) {
-       return userDAO.getUserById(userId);
+        return userDAO.getUserById(userId);
     }
 
     @Transactional
@@ -40,4 +40,5 @@ public class UserServiceImp implements UserService {
     public void saveUser(User user) {
         userDAO.saveUser(user);
     }
+
 }
